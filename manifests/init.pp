@@ -89,6 +89,7 @@ class timezone (
   exec { $update_command :
     require     => File[$config_file],
     subscribe   => File[$config_file],
+    path        => '/usr/local/sbin:/sbin:/bin:/usr/sbin:/usr/bin',
     refreshonly => true,
   }
 }
