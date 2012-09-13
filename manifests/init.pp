@@ -59,7 +59,7 @@ class timezone (
       } else {
         $package_ensure = 'present'
       }
-      $config_ensure = 'link'
+      $config_ensure = 'present'
     }
     /(absent)/: {
       # Leave package installed, as it is a system dependency
