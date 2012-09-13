@@ -56,10 +56,10 @@ class timezone (
     /(present)/: {
       if $autoupgrade == true {
         $package_ensure = 'latest'
-      } else {
-        $package_ensure = 'present'
-      }
-      $config_ensure = 'present'
+        } else {
+          $package_ensure = 'present'
+        }
+        $config_ensure = 'present'
     }
     /(absent)/: {
       # Leave package installed, as it is a system dependency
@@ -84,5 +84,11 @@ class timezone (
     ensure  => $config_ensure,
     content => $config_file_contents,
     require => Package[$package],
+  }
+
+  exec { $update_command :
+    require     => File[$config_file],
+    subscribe   => File[$config_file],
+    refreshonly => true,
   }
 }
