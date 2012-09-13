@@ -48,7 +48,8 @@ class timezone (
   $autoupgrade = false,
   $package = $timezone::params::package,
   $config_file = $timezone::params::config_file,
-  $zoneinfo_dir = $timezone::params::zoneinfo_dir
+  $zoneinfo_dir = $timezone::params::zoneinfo_dir,
+  $update_command = $timezone::params::update_command
 ) inherits timezone::params {
 
   case $ensure {
@@ -74,9 +75,14 @@ class timezone (
     ensure => $package_ensure,
   }
 
+  $config_file_contents = $::operatingsystem ? {
+    /(Debian|Ubuntu)/ => $timezone,
+    /(RedHat|CentOS)/ => "ZONE=\"${timezone}\"",
+  }
+
   file { $config_file:
     ensure  => $config_ensure,
-    target  => "${zoneinfo_dir}${timezone}",
+    content => $config_file_contents,
     require => Package[$package],
   }
 }
