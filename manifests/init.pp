@@ -76,7 +76,7 @@ class timezone (
   }
 
   $config_file_contents = $::operatingsystem ? {
-    /(Debian|Ubuntu)/ => $timezone,
+    /(Debian|Ubuntu)/ => "${timezone}\n",
     /(RedHat|CentOS)/ => "ZONE=\"${timezone}\"",
   }
 
